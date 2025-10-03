@@ -22,7 +22,7 @@ Route::get('/', function () {
 Route::middleware(['auth'])->prefix('dashboard')->name('dashboard.')->group(function () {
     // Dashboard utama (bisa diarahkan sesuai role)
     Route::get('/', function () {
-        if (auth()->user()->role === 'admin') {
+        if (auth()->user()->role->role_name === 'admin') {
             return view('pages.admin.index');
         } else {
             return view('pages.member.index');
