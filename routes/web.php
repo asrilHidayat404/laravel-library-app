@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\MemberController;
 
 /*
 |--------------------------------------------------------------------------
@@ -37,9 +38,13 @@ Route::middleware(['auth'])->prefix('dashboard')->name('dashboard.')->group(func
 
 // ================= ADMIN =================
 Route::middleware(['auth', 'isAdmin'])->prefix('dashboard')->name('dashboard.')->group(function () {
-    Route::get('/users', function () {
-        return view('pages.admin.users.index');
-    })->name('users');
+    Route::get('/members', [MemberController::class, 'index'])->name('members');
+    Route::get('/members/create', [MemberController::class, 'create'])->name('members.create');
+    Route::post('/members/store', [MemberController::class, 'store'])->name('members.store');
+    Route::get('/members/{member}/edit', [MemberController::class, 'edit'])->name('members.edit');
+    Route::put('/members/{member}/update', [MemberController::class, 'update'])->name('members.update');
+    Route::delete('/members/{id}/destroy', [MemberController::class, 'destroy'])->name('members.destroy');
+
 
     Route::get('/books', function () {
         return view('pages.admin.books.index');

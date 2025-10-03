@@ -6,6 +6,8 @@ use Illuminate\Database\Seeder;
 use App\Models\User;
 use App\Models\Member;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Http\File;
 
 class MemberSeeder extends Seeder
 {
@@ -17,12 +19,17 @@ class MemberSeeder extends Seeder
     public function run()
     {
                 // Members
-        for ($i = 1; $i <= 10; $i++) {
+
+        $avatarPath = Storage::disk('public')->putFileAs('avatar', new File(public_path('assets/avatar/profile.jpeg')), 'profile.jpeg');
+
+
+        for ($i = 1; $i <= 50; $i++) {
             $user = User::create([
                 'username' => "Member $i",
                 'email' => "member$i@example.com",
                 'password' => Hash::make('password'),
                 'role_id' => 2,
+                'avatar' => $avatarPath
             ]);
 
             Member::create([

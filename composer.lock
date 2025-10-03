@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "ada9e4e6f76a8813c50bd041702888eb",
+    "content-hash": "b7a7ca7f9c8b2aee611f3ffb66112b16",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -1795,20 +1795,20 @@
         },
         {
             "name": "mkocansey/bladewind",
-            "version": "v3.1.5",
+            "version": "v1.30",
             "source": {
                 "type": "git",
                 "url": "https://github.com/mkocansey/bladewind.git",
-                "reference": "909dd31bbe94fa2fed8cc07fdd7488459bf797da"
+                "reference": "b70a154e0a7e2f2a2af0580d93caebe3a6fea2a2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mkocansey/bladewind/zipball/909dd31bbe94fa2fed8cc07fdd7488459bf797da",
-                "reference": "909dd31bbe94fa2fed8cc07fdd7488459bf797da",
+                "url": "https://api.github.com/repos/mkocansey/bladewind/zipball/b70a154e0a7e2f2a2af0580d93caebe3a6fea2a2",
+                "reference": "b70a154e0a7e2f2a2af0580d93caebe3a6fea2a2",
                 "shasum": ""
             },
             "require": {
-                "php": ">=8.0"
+                "php": ">=7.3"
             },
             "type": "library",
             "extra": {
@@ -1830,7 +1830,7 @@
             "authors": [
                 {
                     "name": "Michael K. Ocansey",
-                    "email": "mike@bladewindui.com"
+                    "email": "kabutey@gmail.com"
                 }
             ],
             "description": "Laravel UI Components using TailwindCSS, Blade Templates and vanilla Javascript",
@@ -1842,9 +1842,9 @@
             ],
             "support": {
                 "issues": "https://github.com/mkocansey/bladewind/issues",
-                "source": "https://github.com/mkocansey/bladewind/tree/v3.1.5"
+                "source": "https://github.com/mkocansey/bladewind/tree/v1.30"
             },
-            "time": "2025-08-24T20:17:35+00:00"
+            "time": "2022-07-26T18:11:27+00:00"
         },
         {
             "name": "monolog/monolog",

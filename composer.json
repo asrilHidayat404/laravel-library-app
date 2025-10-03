@@ -12,7 +12,7 @@
         "laravel/framework": "^8.75",
         "laravel/sanctum": "^2.11",
         "laravel/tinker": "^2.5",
-        "mkocansey/bladewind": "^3.1"
+        "mkocansey/bladewind": "^1.0"
     },
     "require-dev": {
         "facade/ignition": "^2.5",

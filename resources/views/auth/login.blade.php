@@ -23,10 +23,10 @@
 </head>
 
 <body class="flex items-center justify-center min-h-screen bg-gray-100">
-    <div class="w-full max-w-3xl px-4">
+    <div class="w-full px-4">
         <div class="flex flex-col items-center justify-center gap-6 ">
             <x-bladewind::card class="p-0 overflow-hidden ">
-                <div class="flex">
+                <div class="flex w-full p-10">
                     <!-- Form -->
                     <form method="POST" action="{{ route('login') }}" class="flex flex-col flex-1"
                         @submit="loading=true" x-data="{ showPassword: false, loading: false }">
@@ -67,7 +67,7 @@
 
                         <!-- Submit -->
                         <div x-data="{ loading: false }" class="mt-4">
-                            <x-bladewind::button uppercasing="false" color="primary" class="w-full"
+                            <x-bladewind::button uppercasing="false"  class="w-full"
                                 @click="loading=true; $el.closest('form').submit()"
                                 x-text="loading ? 'Authenticating...' : 'Login'" />
                         </div>
@@ -83,7 +83,7 @@
                     <!-- Right side illustration -->
                     <div class="flex items-center justify-center flex-1 md:block">
                         <img src="{{ asset('assets/illustrations/login-bg.png') }}" alt="Login illustration"
-                            class="object-contain p-6 max-h-[350px]" />
+                            class="object-contain p-6 max-h-[450px]" />
                     </div>
                 </div>
             </x-bladewind::card>
