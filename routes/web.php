@@ -38,12 +38,14 @@ Route::middleware(['auth'])->prefix('dashboard')->name('dashboard.')->group(func
 
 // ================= ADMIN =================
 Route::middleware(['auth', 'isAdmin'])->prefix('dashboard')->name('dashboard.')->group(function () {
-    Route::get('/members', [MemberController::class, 'index'])->name('members');
-    Route::get('/members/create', [MemberController::class, 'create'])->name('members.create');
-    Route::post('/members/store', [MemberController::class, 'store'])->name('members.store');
-    Route::get('/members/{member}/edit', [MemberController::class, 'edit'])->name('members.edit');
-    Route::put('/members/{member}/update', [MemberController::class, 'update'])->name('members.update');
-    Route::delete('/members/{id}/destroy', [MemberController::class, 'destroy'])->name('members.destroy');
+Route::prefix('members')->name('members.')->group(function () {
+    Route::get('/', [MemberController::class, 'index'])->name('index');
+    Route::get('/create', [MemberController::class, 'create'])->name('create');
+    Route::post('/store', [MemberController::class, 'store'])->name('store');
+    Route::get('/{member}/edit', [MemberController::class, 'edit'])->name('edit');
+    Route::put('/{member}/update', [MemberController::class, 'update'])->name('update');
+    Route::delete('/{member}/destroy', [MemberController::class, 'destroy'])->name('destroy');
+});
 
 
     Route::get('/books', function () {

@@ -18,7 +18,7 @@ class BookCategory extends Migration
             $table->id('id_book_category');
             $table->unsignedBigInteger('book_id');
             $table->foreign('book_id')->references('id_book')->on('books')->onDelete('cascade');
-            $table->unsignedBigInteger('category_id');
+            $table->unsignedBigInteger('category_id')->nullable();
             $table->foreign('category_id')->references('id_category')->on('categories')->onDelete('cascade');
             $table->timestamps();
         });

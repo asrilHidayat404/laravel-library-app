@@ -39,21 +39,21 @@ class MemberController extends Controller
 
     public function store(Request $request)
     {
-    $validatedData = $request->validate([
-        "username" => "required|string|min:5",
-        "email" => "required|email",
-        "password" => "required|string|min:5",
-        "phone_number" => "required|string"
-    ]);
+        $validatedData = $request->validate([
+            "username" => "required|string|min:5",
+            "email" => "required|email",
+            "password" => "required|string|min:5",
+            "phone_number" => "required|string"
+        ]);
 
-    DB::beginTransaction();
-    try {
-        // Path source avatar
-        $avatarPath = Storage::disk('public')->putFileAs(
-    'avatar',
-    new File(public_path('assets/avatar/profile.jpeg')),
-    'profile-'.$validatedData['username'].'.jpeg'
-);
+        DB::beginTransaction();
+        try {
+            // Path source avatar
+            $avatarPath = Storage::disk('public')->putFileAs(
+        'avatar',
+        new File(public_path('assets/avatar/profile.jpeg')),
+        'profile-'.$validatedData['username'].'.jpeg'
+        );
 
         // Buat user
         $user = User::create([
