@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Book;
+use App\Models\Category;
 
 class BookController extends Controller
 {
@@ -22,7 +23,8 @@ class BookController extends Controller
     }
     public function create()
     {
-        return view('pages.books.create');
+        $categories = Category::all();
+        return view('pages.books.create', compact('categories'));
     }
     public function store(Request $request)
     {
@@ -30,17 +32,27 @@ class BookController extends Controller
             "title" => "required|string",
             "author" => "required|string",
             'published_year'   => 'required|max:50',
+            "categories" => "required|array", // menerima array kategori
+        "categories.*" => "exists:categories,id_category", // pastikan kategori valid
         ]);
 
-        Book::create($validatedData);
-               if (request()->ajax()) {
-                return response()->json(['success' => true, 'message' => 'Data berhasil ditambah.']);
+
+
+        $book = Book::create($validatedData);
+        // relasikan dengan kategori yang dipilih
+        $book->categories()->attach($validatedData["categories"]);
+
+
+        if (request()->ajax()) {
+            return response()->json(['success' => true, 'message' => 'Data berhasil ditambah.']);
         }
     }
 
     public function edit(Book $book)
     {
-        return view('pages.books.edit', compact('book'));
+        $categories = Category::all();
+
+        return view('pages.books.edit', compact('book', 'categories'));
     }
 
     public function update(Request $request, Book $book)
@@ -49,26 +61,26 @@ class BookController extends Controller
             'title'   => 'required|string|max:20',
             'author'   => 'required|string|max:50',
             'published_year'   => 'required|max:50',
+            "categories" => "required|array", // menerima array kategori
+            "categories.*" => "exists:categories,id_category", // pastikan kategori valid
         ]);
 
-
         $book->update($validatedData);
-
+                // relasikan dengan kategori yang dipilih
+        $book->categories()->sync($validatedData["categories"]);
 
         if (request()->ajax()) {
-                return response()->json(['success' => true, 'message' => 'Data berhasil diupdate.', 'data' => $book]);
-            }
+            return response()->json(['success' => true, 'message' => 'Data berhasil diupdate.', 'data' => $book]);
+        }
 
     }
 
     public function destroy(Book $book)
     {
-
         $book->delete();
         if (request()->ajax()) {
             return response()->json(['success' => true, 'message' => 'Data berhasil dihapus.']);
         }
-
     }
 
     // api

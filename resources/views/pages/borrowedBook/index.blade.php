@@ -33,9 +33,9 @@
 
                     <!-- Footer -->
                     <footer class="flex flex-col justify-between gap-4 p-4 mt-2 flex-colr">
-                        <div class="flex space-x-2">
-                            <span class="text-sm text-gray-600">Category: {{ $b->book->category ?? '-' }}</span>
-                        </div>
+                        <span class="text-sm text-gray-600">
+                            Category: {{ $b->book->categories->pluck('category_name')->implode(', ') ?: '-' }}
+                        </span>
                         <div>
                             @can('admin')
                                 <button class="px-3 py-1 text-white bg-blue-500 rounded editBtn"

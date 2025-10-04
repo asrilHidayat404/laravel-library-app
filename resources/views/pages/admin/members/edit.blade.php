@@ -1,23 +1,40 @@
 <x-app-layout>
+    <div class="p-6 mx-auto mt-6 rounded-lg shadow-md">
+        <h2 class="pb-2 mb-6 text-2xl font-bold text-gray-800 border-b">Edit Profile - {{ $member->user->username }}</h2>
 
+        <div class="space-y-6">
+            <div class="grid grid-cols-1 gap-6 md:grid-cols-2">
+                <div>
+                    <x-bladewind::input required="true" name="username" label="Username" error_message="Please enter your first name"
+                        value="{{ old('username', $member->user->username) }}" />
+                </div>
+                <div>
+                    <x-bladewind::input numeric="true" name="phone_number" label="Phone Number"
+                        value="{{ old('phone_number', $member->phone_number) }}" />
+                </div>
+            </div>
 
-    <b>Edit {{ $member->user->username }} Profile</b>
-    <div class="grid grid-cols-2 gap-4 mt-6">
-        <x-bladewind::input required="true" name="username" label="Username" error_message="Please enter your first name"
-            value="{{ old('username', $member->user->username) }}" />
+            <div>
+                <x-bladewind::input required="true" name="email" label="Email address" error_message="Please enter your email"
+                    value="{{ old('email', $member->user->email) }}" />
+            </div>
+
+            <div class="flex justify-between pt-4 border-t">
+                <a href="/dashboard/members"
+                   class="px-6 py-2 font-medium text-gray-700 transition-colors duration-200 bg-gray-300 rounded-md hover:bg-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2">
+                    Kembali
+                </a>
+                <button type="submit" id="updateBtn"
+                        class="px-6 py-2 font-medium text-white transition-colors duration-200 bg-blue-600 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
+                    Update Profile
+                </button>
+            </div>
+        </div>
     </div>
-
-    <x-bladewind::input required="true" name="email" label="Email address" error_message="Please enter your email"
-        value="{{ old('email', $member->user->email) }}" />
-
-    <x-bladewind::input numeric="true" name="phone_number" label="Phone Number"
-        value="{{ old('phone_number', $member->phone_number) }}" />
-
-    <button type="submit" id="updateBtn">Submit</button>
 </x-app-layout>
+
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
-    // Confirm delete
     $('#updateBtn').click(function(e) {
         e.preventDefault();
         let data = {
@@ -45,10 +62,10 @@
             },
             error: function(err) {
                 Swal.fire({
-                        title: "Gagal!",
-                        text: "Terjadi kesalahan",
-                        icon: "failed"
-                    });
+                    title: "Gagal!",
+                    text: "Terjadi kesalahan",
+                    icon: "error"
+                });
             }
         });
     });

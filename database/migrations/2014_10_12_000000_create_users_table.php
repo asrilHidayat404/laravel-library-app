@@ -29,15 +29,9 @@ class CreateUsersTable extends Migration
 
         User::create([
             "username" => "Admin Library",
-            "email" => "admin@gmail.com",
+            "email" => "asril.hidayat2004@gmail.com",
             "password" => Hash::make("password"),
             "role_id" => 1
-        ]);
-        User::create([
-            "username" => "Member Library",
-            "email" => "member@gmail.com",
-            "password" => Hash::make("password"),
-            "role_id" => 2
         ]);
     }
 
