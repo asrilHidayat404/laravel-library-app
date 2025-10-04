@@ -19,4 +19,8 @@ class Member extends Model
     {
         return $this->belongsTo(User::class, 'user_id', 'id_user');
     }
+    public function borrowedBooks()
+    {
+        return $this->hasMany(BorrowedBook::class, 'member_id', 'id_member');
+    }
 }

@@ -26,4 +26,8 @@ class Book extends Model
             'category_id'         // FK di pivot yang mengacu ke categories
         );
     }
+    public function borrowedBooks()
+    {
+        return $this->hasMany(BorrowedBook::class, 'book_id', 'id_book');
+    }
 }

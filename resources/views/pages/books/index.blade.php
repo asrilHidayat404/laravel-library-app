@@ -34,7 +34,8 @@
                         <div class="flex space-x-2">
                             <span class="text-sm text-gray-600">Category: {{ $b->category ?? '-' }}</span>
                         </div>
-                        <div>
+                        @can("admin")
+                            <div>
                             <a href="{{ route('dashboard.books.edit', $b->id_book) }}">
                                 <button class="px-3 py-1 text-white bg-blue-500 rounded"">
                                     Edit
@@ -45,6 +46,13 @@
                                 Delete
                             </button>
                         </div>
+                        @endcan
+                        @can('member')
+                             <button class="px-3 py-1 text-white bg-yellow-500 rounded pinjamBtn"
+                                data-id="{{ $b->id_book }}">
+                                Pinjam Buku
+                            </button>
+                        @endcan
                     </footer>
 
                 </x-bladewind::card>
@@ -78,22 +86,21 @@
     let selectedId = null;
 
     // Klik tombol delete → buka modal
-    $(document).on('click', '.deleteBtn', function() {
+    $(document).on('click', '.pinjamBtn', function() {
         selectedId = $(this).data('id');
         Swal.fire({
-            title: "Are you sure?",
-            text: "You won't be able to revert this!",
+            title: "Apakah ada ingin meminjam buku ini?",
             icon: "warning",
             showCancelButton: true,
             confirmButtonColor: "#3085d6",
             cancelButtonColor: "#d33",
-            confirmButtonText: "Yes, delete it!"
+            confirmButtonText: "Yes!"
         }).then((result) => {
             if (result.isConfirmed) {
 
                 $.ajax({
-                    url: "/dashboard/books/" + selectedId + "/destroy",
-                    type: "DELETE",
+                    url: "/dashboard/borrows/" + selectedId + "/store",
+                    type: "POST",
                     data: {
                         _token: "{{ csrf_token() }}"
                     },
@@ -115,6 +122,8 @@
 
                     },
                     error: function(err) {
+                        console.log(err);
+
                         Swal.fire({
                             title: "Gagal!",
                             text: "Terjadi kesalahan!",

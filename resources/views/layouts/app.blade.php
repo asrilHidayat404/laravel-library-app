@@ -453,7 +453,8 @@
                                 Koleksi Buku
                             </a>
                         </li>
-                        <li class="nav-item">
+                        @can('admin')
+                              <li class="nav-item">
                             <a href="{{ route('dashboard.members.index') }}"
                                 class="nav-link {{ request()->routeIs('dashboard.members.index') ? 'active' : '' }}">
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
@@ -461,16 +462,6 @@
                                         d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z" />
                                 </svg>
                                 Anggota
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href=""
-                                class="nav-link {{ request()->routeIs('transactions.*') ? 'active' : '' }}">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-                                    <path
-                                        d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z" />
-                                </svg>
-                                Peminjaman
                             </a>
                         </li>
                         <li class="nav-item">
@@ -483,6 +474,19 @@
                                 Kategori
                             </a>
                         </li>
+                        @endcan
+
+                        <li class="nav-item">
+                            <a href="{{route("dashboard.borrows.index")}}"
+                                class="nav-link {{ request()->routeIs('dashboard.borrows.*') ? 'active' : '' }}">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                                    <path
+                                        d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z" />
+                                </svg>
+                                Peminjaman
+                            </a>
+                        </li>
+
                     </ul>
                 </div>
 
@@ -569,25 +573,15 @@
                             </svg>
                         </button>
 
-                        <!-- Notifications -->
-                        <button class="icon-btn">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
-                                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
-                                <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
-                            </svg>
-                            <span class="notification-badge">3</span>
-                        </button>
 
                         <!-- User Menu -->
                         <div class="user-menu-wrapper">
                             <button id="user-menu-button" class="user-menu-btn">
                                 <img class="user-avatar"
-                                    src="https://ui-avatars.com/api/?name={{ urlencode(Auth::user()->name ?? 'Admin User') }}&background=D4AF37&color=8B4513"
+                                    src="https://ui-avatars.com/api/?name={{ urlencode(Auth::user()->username ?? 'Admin User') }}&background=D4AF37&color=8B4513"
                                     alt="User">
                                 <div class="hidden user-info md:flex">
-                                    <span class="user-name">{{ Auth::user()->name ?? 'Admin User' }}</span>
+                                    <span class="user-name">{{ Auth::user()->username ?? 'Admin User' }}</span>
                                     <span
                                         class="user-role">{{ Auth::user()->role->role_name ?? 'Administrator' }}</span>
                                 </div>
@@ -601,21 +595,6 @@
 
                             <!-- Dropdown Menu -->
                             <div id="user-menu" class="user-dropdown">
-                                <a href="" class="dropdown-item">
-                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-                                        <path
-                                            d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" />
-                                    </svg>
-                                    Profil Saya
-                                </a>
-                                <a href="" class="dropdown-item">
-                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-                                        <path
-                                            d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z" />
-                                    </svg>
-                                    Pengaturan
-                                </a>
-                                <div class="dropdown-divider"></div>
                                 <a href="{{ route('logout') }}" class="dropdown-item"
                                     onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"

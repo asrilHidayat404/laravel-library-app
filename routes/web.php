@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MemberController;
 use App\Http\Controllers\BookController;
+use App\Http\Controllers\BorrowedBookController;
 
 /*
 |--------------------------------------------------------------------------
@@ -50,6 +51,15 @@ Route::middleware(['auth'])->prefix('dashboard')->name('dashboard.')->group(func
         Route::get('/{book}/edit', [BookController::class, 'edit'])->name('edit');
         Route::put('/{book}/update', [BookController::class, 'update'])->name('update');
         Route::delete('/{book}/destroy', [BookController::class, 'destroy'])->name('destroy');
+    });
+
+     Route::prefix('borrows')->name('borrows.')->group(function () {
+        Route::get('/', [BorrowedBookController::class, 'index'])->name('index');
+        Route::get('/create', [BorrowedBookController::class, 'create'])->name('create');
+        Route::post('/{book}/store', [BorrowedBookController::class, 'store'])->name('store');
+        Route::get('/{borrowedBook}/edit', [BorrowedBookController::class, 'edit'])->name('edit');
+        Route::put('/{borrowedBook}/update', [BorrowedBookController::class, 'update'])->name('update');
+        Route::delete('/{borrowedBook}/destroy', [BorrowedBookController::class, 'destroy'])->name('destroy');
     });
 
     // Routes khusus Member
