@@ -18,6 +18,13 @@ class BorrowedBook extends Model
         'status',
     ];
 
+        // 🧠 Tambahkan ini agar tanggal otomatis jadi Carbon instance
+    protected $casts = [
+        'borrowed_date' => 'datetime',
+        'due_date' => 'datetime',
+        'returned_date' => 'datetime',
+    ];
+
 
     public function book()
     {

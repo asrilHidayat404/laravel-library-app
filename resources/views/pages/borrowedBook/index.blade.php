@@ -2,7 +2,11 @@
 
     <header class="flex items-center justify-between mb-6">
         <h1 class="text-2xl font-semibold">Manajemen Peminjaman Buku Perpustakaan</h1>
-
+        @can('admin')
+            <a href="{{ route('dashboard.borrowed-books.export') }}">
+                <x-bladewind::button>Export to Excel</x-bladewind::button>
+            </a>
+        @endcan
     </header>
     <div>
         <input type="text" id="searchInput" placeholder="Search..."
@@ -210,8 +214,13 @@
             icon: "info",
             html: `
                     <ul>
-                        <li>Tanggal Peminjaman: ${selectedBook.borrowed_date}</li>
-                        <li>Tanggal Pengembalian: ${selectedBook.due_date}</li>
+                        <li>Tanggal Peminjaman: ${new Date(selectedBook.borrowed_date).toLocaleDateString('id-ID', {
+                            day: '2-digit', month: 'short', year: 'numeric'
+                        })}</li>
+                        <li>Tanggal Pengembalian: ${new Date(selectedBook.due_date).toLocaleDateString('id-ID', {
+                            day: '2-digit', month: 'short', year: 'numeric'
+                        })}</li>
+
                         <li>Status Peminjaman: ${selectedBook.status == 'borrowed' ? "Dipinjam" : "Dikembalikan"}</li>
                     </ul>
                 `,
@@ -243,7 +252,7 @@
                 }
 
                 const state = status == 'Dipinjam' ? 'borrowed' :
-                'returned'; // 'Dipinjam' atau 'Dikembalikan'
+                    'returned'; // 'Dipinjam' atau 'Dikembalikan'
 
                 // kembalikan Promise AJAX agar Swal menunggu
                 return $.ajax({

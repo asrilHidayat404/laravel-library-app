@@ -41,6 +41,7 @@ Route::middleware(['auth'])->prefix('dashboard')->name('dashboard.')->group(func
             Route::put('/{member}/update', [MemberController::class, 'update'])->name('update');
             Route::delete('/{member}/destroy', [MemberController::class, 'destroy'])->name('destroy');
         });
+        Route::get('/borrowed-books/export', [BorrowedBookController::class, 'export'])->name('borrowed-books.export');
     });
 
 

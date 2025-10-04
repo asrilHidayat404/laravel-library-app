@@ -7,6 +7,10 @@ use App\Models\BorrowedBook;
 use App\Models\Book;
 use App\Jobs\SendBorrowEmail;
 use Illuminate\Support\Facades\Mail;
+use App\Exports\BorrowerExport;
+use Maatwebsite\Excel\Facades\Excel;
+
+
 
 class BorrowedBookController extends Controller
 {
@@ -94,5 +98,10 @@ class BorrowedBookController extends Controller
         if (request()->ajax()) {
             return response()->json(['success' => true, 'message' => 'Data berhasil dihapus.']);
         }
+    }
+
+    public function export()
+    {
+        return Excel::download(new BorrowerExport, 'data_peminjaman.xlsx');
     }
 }
