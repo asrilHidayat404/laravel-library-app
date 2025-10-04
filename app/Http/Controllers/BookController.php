@@ -12,12 +12,12 @@ class BookController extends Controller
         if ($request->ajax()) {
             $search = $request->input('str', '');
             $books = Book::where('title', 'like', '%' . $search . '%')
-                ->orWhere('author', 'like', '%' . $search . '%')->with('categories')->get();
+                ->orWhere('author', 'like', '%' . $search . '%')->with(['categories', 'borrowedBooks'])->get();
 
             return response()->json(['books' => $books]);
         }
 
-        $books = Book::with('categories')->paginate(9);
+        $books = Book::with(['categories', 'borrowedBooks'])->paginate(9);
         return view('pages.books.index', compact('books'));
     }
     public function create()

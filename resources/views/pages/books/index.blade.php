@@ -34,23 +34,32 @@
                         <div class="flex space-x-2">
                             <span class="text-sm text-gray-600">Category: {{ $b->category ?? '-' }}</span>
                         </div>
-                        @can("admin")
+                        @can('admin')
                             <div>
-                            <a href="{{ route('dashboard.books.edit', $b->id_book) }}">
-                                <button class="px-3 py-1 text-white bg-blue-500 rounded"">
-                                    Edit
+                                <a href="{{ route('dashboard.books.edit', $b->id_book) }}">
+                                    <button class="px-3 py-1 text-white bg-blue-500 rounded"">
+                                        Edit
+                                    </button>
+                                </a>
+                                <button class="px-3 py-1 text-white bg-red-500 rounded deleteBtn"
+                                    data-id="{{ $b->id_book }}">
+                                    Delete
                                 </button>
-                            </a>
-                            <button class="px-3 py-1 text-white bg-red-500 rounded deleteBtn"
-                                data-id="{{ $b->id_book }}">
-                                Delete
-                            </button>
-                        </div>
+                            </div>
                         @endcan
                         @can('member')
-                             <button class="px-3 py-1 text-white bg-yellow-500 rounded pinjamBtn"
-                                data-id="{{ $b->id_book }}">
-                                Pinjam Buku
+                            @php
+                                $alreadyBorrowed = $b->borrowedBooks
+                                    ->where('member_id', Auth::user()->member->id_member)
+                                    ->where('status', 'borrowed')
+                                    ->first();
+                            @endphp
+
+                            <button
+                                class="px-3 py-1 text-white rounded {{ $alreadyBorrowed ? 'bg-gray-400 cursor-not-allowed' : 'bg-yellow-500 pinjamBtn' }}"
+                                {{ $alreadyBorrowed ? 'disabled' : '' }}
+                                data-id="{{ $alreadyBorrowed ? '' : $b->id_book }}">
+                                {{ $alreadyBorrowed ? 'Buku Sedang Dipinjam' : 'Pinjam Buku' }}
                             </button>
                         @endcan
                     </footer>
