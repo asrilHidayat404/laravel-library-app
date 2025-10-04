@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\BorrowedBook;
 use App\Models\Book;
+use App\Jobs\SendBorrowEmail;
+use Illuminate\Support\Facades\Mail;
 
 class BorrowedBookController extends Controller
 {
@@ -48,16 +50,24 @@ class BorrowedBookController extends Controller
 
     public function store(Book $book)
     {
-        BorrowedBook::create([
+        $borrowedBook = BorrowedBook::create([
             'book_id' => $book->id_book,
             'member_id' => auth()->user()->member->id_member,
             'borrowed_date' => now(),
             'due_date' => now()->addDays(7),
             'status' => 'borrowed',
         ]);
+         $user = auth()->user();
+        Mail::raw("Halo {$user->name}, kamu baru saja meminjam buku '{$book->title}'.\nTanggal pengembalian: {$borrowedBook->due_date->format('d M Y')}.", function ($msg) use ($user) {
+            $msg->to($user->email)
+                ->subject('Notifikasi Peminjaman Buku');
+        });
+        // SendBorrowEmail::dispatch($borrowedBook);
+
         if (request()->ajax()) {
             return response()->json(['success' => true, 'message' => 'Berhasil meminjam buku.']);
         }
+
     }
 
     public function update(Request $request, $id)
