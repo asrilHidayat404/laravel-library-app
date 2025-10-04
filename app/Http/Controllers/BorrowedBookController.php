@@ -100,8 +100,66 @@ class BorrowedBookController extends Controller
         }
     }
 
+    // export
+
     public function export()
     {
         return Excel::download(new BorrowerExport, 'data_peminjaman.xlsx');
     }
+
+    // api
+    public function apiStore(Request $request)
+    {
+        try {
+            $request->validate([
+                'book_id' => 'required|exists:books,id_book',
+                'member_id' => 'required|exists:members,id_member',
+            ]);
+
+            $borrowed = BorrowedBook::create([
+                'book_id' => $request->book_id,
+                'member_id' => $request->member_id,
+                'borrowed_date' => now(),
+                'due_date' => now()->addDays(7),
+                'status' => 'borrowed',
+            ]);
+
+            return response()->json([
+                'status' => 200,
+                'message' => 'Peminjaman berhasil dibuat',
+                'data' => $borrowed
+            ], 201);
+        } catch (\Throwable $th) {
+            return response()->json([
+            'status' => 500,
+            'message' => 'Somtehing went wrong'
+           ]);
+        }
+    }
+
+    public function apiShow($id)
+    {
+        try {
+            $borrowed = BorrowedBook::with(['book', 'member.user'])->findOrFail($id);
+
+            return response()->json([
+                'status' => 200,
+                'data' => [
+                    'id' => $borrowed->id_borrowed_book,
+                    'book_title' => $borrowed->book->title,
+                    'borrower_name' => $borrowed->member->user->username,
+                    'borrowed_date' => $borrowed->borrowed_date,
+                    'due_date' => $borrowed->due_date,
+                    'status' => $borrowed->status,
+                ]
+            ]);
+        } catch (\Throwable $th) {
+           return response()->json([
+            'status' => 500,
+            'message' => 'Something went wrong'
+           ]);
+        }
+
+    }
+
 }

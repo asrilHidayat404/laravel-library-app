@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MemberController;
 use App\Http\Controllers\BookController;
 use App\Http\Controllers\BorrowedBookController;
+use App\Http\Controllers\CategoryController;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,6 +20,9 @@ use App\Http\Controllers\BorrowedBookController;
 Route::get('/', function () {
     return view('welcome');
 });
+Route::get('/test-api', function () {
+    return view('test-api');
+})->name('test-api');
 
 Route::middleware(['auth'])->prefix('dashboard')->name('dashboard.')->group(function () {
 
@@ -42,6 +46,14 @@ Route::middleware(['auth'])->prefix('dashboard')->name('dashboard.')->group(func
             Route::delete('/{member}/destroy', [MemberController::class, 'destroy'])->name('destroy');
         });
         Route::get('/borrowed-books/export', [BorrowedBookController::class, 'export'])->name('borrowed-books.export');
+        Route::prefix('categories')->name('categories.')->group(function () {
+            Route::get('/', [CategoryController::class, 'index'])->name('index');
+            Route::get('/create', [CategoryController::class, 'create'])->name('create');
+            Route::post('/store', [CategoryController::class, 'store'])->name('store');
+            Route::get('/{category}/edit', [CategoryController::class, 'edit'])->name('edit');
+            Route::put('/{category}/update', [CategoryController::class, 'update'])->name('update');
+            Route::delete('/{category}/destroy', [CategoryController::class, 'destroy'])->name('destroy');
+        });
     });
 
 

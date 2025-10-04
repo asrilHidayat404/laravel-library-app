@@ -70,4 +70,22 @@ class BookController extends Controller
         }
 
     }
+
+    // api
+    public function apiIndex()
+    {
+        try {
+            $books = Book::select('id_book', 'title', 'author')->get();
+
+            return response()->json([
+                'status' => 200,
+                'data' => $books
+            ]);
+        } catch (\Throwable $th) {
+           return response()->json([
+            'status' => 500,
+            'message' => 'Something went wrong'
+           ]);
+        }
+    }
 }
