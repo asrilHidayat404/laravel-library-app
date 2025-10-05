@@ -121,6 +121,8 @@ DB_PASSWORD=
 ### 8️⃣ Jalankan Migrasi
 ```bash
 php artisan migrate 
+
+php artisan db:seed
 ```
 
 ### 9️⃣ Konfigurasi Mail (Opsional)
