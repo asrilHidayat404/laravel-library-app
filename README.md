@@ -125,8 +125,8 @@ php artisan migrate
 php artisan db:seed
 ```
 
-### 9️⃣ Konfigurasi Mail (Opsional)
-Jika ingin menggunakan notifikasi email:
+### 9️⃣ Konfigurasi Mail
+Jika menggunakan notifikasi email:
 ```env
 MAIL_MAILER=smtp
 MAIL_HOST=smtp.gmail.com
