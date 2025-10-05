@@ -5,6 +5,8 @@ use App\Http\Controllers\MemberController;
 use App\Http\Controllers\BookController;
 use App\Http\Controllers\BorrowedBookController;
 use App\Http\Controllers\CategoryController;
+use App\Jobs\SendBorrowEmail;
+use App\Models\BorrowedBook;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,6 +25,25 @@ Route::get('/', function () {
 Route::get('/test-api', function () {
     return view('test-api');
 })->name('test-api');
+
+Route::get("/email", function () {
+ // Simulasi data peminjaman baru
+    $borrowedBook = BorrowedBook::create([
+        'book_id' => 1,
+        'member_id' => 1,
+        'borrowed_date' => now(),
+        'due_date' => now()->addDays(7),
+        'status' => 'borrowed',
+    ]);
+
+    // Kirim job ke queue
+    SendBorrowEmail::dispatch($borrowedBook);
+
+    return response()->json([
+        'message' => 'Email job dispatched successfully.',
+        'borrowed_book' => $borrowedBook
+    ]);
+});
 
 Route::middleware(['auth'])->prefix('dashboard')->name('dashboard.')->group(function () {
 

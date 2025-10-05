@@ -62,11 +62,11 @@ class BorrowedBookController extends Controller
             'status' => 'borrowed',
         ]);
          $user = auth()->user();
-        Mail::raw("Halo {$user->name}, kamu baru saja meminjam buku '{$book->title}'.\nTanggal pengembalian: {$borrowedBook->due_date->format('d M Y')}.", function ($msg) use ($user) {
-            $msg->to($user->email)
-                ->subject('Notifikasi Peminjaman Buku');
-        });
-        // SendBorrowEmail::dispatch($borrowedBook);
+        // Mail::raw("Halo {$user->name}, kamu baru saja meminjam buku '{$book->title}'.\nTanggal pengembalian: {$borrowedBook->due_date->format('d M Y')}.", function ($msg) use ($user) {
+        //     $msg->to($user->email)
+        //         ->subject('Notifikasi Peminjaman Buku');
+        // });
+        SendBorrowEmail::dispatch($borrowedBook);
 
         if (request()->ajax()) {
             return response()->json(['success' => true, 'message' => 'Berhasil meminjam buku.']);
